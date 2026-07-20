@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Seed demo data — TopRatedVAs.com</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="admin">
+
+<main>
+  <div class="wrap" style="padding:44px 24px 80px;max-width:720px">
+    <div class="s-head"><div class="s-kicker">Admin only</div><h2>Seed demo VA profiles</h2><p>Writes the 12 example VAs into Firestore, each with a protected contact record. Safe to re-run (it overwrites the same records).</p></div>
+
+    <div class="panel" id="seedGate" style="display:none"></div>
+
+    <div class="panel" id="seedPanel" style="display:none">
+      <p style="font-size:14px;color:var(--ink-soft);margin-bottom:16px">Signed in as admin. Click below to populate the database. Contact records are stored in the protected <span class="mono">private/contact</span> subcollection and cannot be read from the browser without an unlock.</p>
+      <button class="btn btn-teal btn-big" id="seedBtn" type="button">Seed 12 example profiles</button>
+      <pre id="seedLog" class="mono" style="margin-top:18px;background:#0A2238;color:#DFEAF2;border-radius:12px;padding:16px;font-size:12.5px;max-height:340px;overflow:auto;white-space:pre-wrap"></pre>
+    </div>
+  </div>
+</main>
+
+<script src="assets/data.js"></script>
+<script type="module" src="assets/seed.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,24 +1,48 @@
 rules_version = '2';
 
-// TopRatedVAs.com — Firestore security rules
-// PHASE 4 (auth): each user can read/write ONLY their own users/{uid} doc,
-// which holds { role, name, email, sessionId }. Everything else is denied.
-// PHASE 5 will extend this with vaProfiles, unlocks, credits, surveys, reviews,
-// and the CRITICAL protected contact subcollection (unreadable before unlock).
+// TopRatedVAs.com — Firestore security rules (Phase 5)
+// Contact info lives in vaProfiles/{vaId}/private/contact and is UNREADABLE
+// from the browser unless: you are the VA who owns it, you hold an unlock
+// record for it, or you are the admin. This is enforced here, not in the UI.
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // A user's own account/role document.
+    function signedIn() { return request.auth != null; }
+    function admin()    { return signedIn() && request.auth.token.email == 'topratedvas@gmail.com'; }
+    function uid()      { return request.auth.uid; }
+
+    // Account/role docs — a user can touch only their own.
     match /users/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow create, update: if request.auth != null && request.auth.uid == userId;
+      allow read, create, update: if signedIn() && uid() == userId;
       allow delete: if false;
     }
 
-    // Default deny everything else (Phase 5 opens up specific paths).
-    match /{document=**} {
-      allow read, write: if false;
+    // VA public profiles — anyone may read (browsing is free & public).
+    match /vaProfiles/{vaId} {
+      allow read: if true;
+      allow create, update: if admin() || (signedIn() && request.resource.data.ownerUid == uid());
+      allow delete: if admin();
+
+      // GHOSTED contact — the critical protection.
+      match /private/{doc} {
+        allow read: if admin()
+          || (signedIn() && get(/databases/$(database)/documents/vaProfiles/$(vaId)).data.ownerUid == uid())
+          || (signedIn() && exists(/databases/$(database)/documents/unlocks/$(uid() + '_' + vaId)));
+        allow write: if admin()
+          || (signedIn() && get(/databases/$(database)/documents/vaProfiles/$(vaId)).data.ownerUid == uid());
+      }
     }
+
+    // Unlock records — an employer can read/create only their own.
+    match /unlocks/{unlockId} {
+      allow read:   if admin() || (signedIn() && resource.data.employerUid == uid());
+      allow create: if admin() || (signedIn() && request.resource.data.employerUid == uid()
+                                    && unlockId == uid() + '_' + request.resource.data.vaId);
+      allow update, delete: if admin();
+    }
+
+    // Everything else is denied (Phase 7 opens credits/surveys/reviews).
+    match /{document=**} { allow read, write: if false; }
   }
 }
