@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse Certified VAs — TopRatedVAs.com</title>
+<meta name="description" content="Browse virtual assistants certified on the EcomSniper Amazon→eBay model. Filter by certification, score, English level, pay range, hours, and availability. Browsing is free.">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="browse">
+
+<main>
+  <div class="browse-head">
+    <div class="wrap">
+      <h1>Browse certified VAs</h1>
+      <p>Every profile: real test scores, AI-scored English, proof videos, verified reviews. Contact info unlocks for $29 or 1 credit.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="browse-layout">
+      <aside class="frail">
+        <h4>Certification</h4>
+        <label><input type="checkbox" data-filter="cert" value="Customer Service"> Customer Service</label>
+        <label><input type="checkbox" data-filter="cert" value="Listing"> Listing</label>
+        <label><input type="checkbox" data-filter="cert" value="Sourcing / Sniping"> Sourcing / Sniping</label>
+        <label><input type="checkbox" data-filter="cert" value="Order Fulfillment"> Order Fulfillment</label>
+        <label><input type="checkbox" data-filter="cert" value="VA Manager"> VA Manager</label>
+        <h4>Level</h4>
+        <label><input type="checkbox" data-filter="level" value="elite"> <span class="badge b-elite">Elite 95+</span></label>
+        <label><input type="checkbox" data-filter="level" value="pro"> <span class="badge b-pro">Pro 90+</span></label>
+        <label><input type="checkbox" data-filter="level" value="cert"> <span class="badge b-cert">Certified 80+</span></label>
+        <h4>Hire type</h4>
+        <label><input type="checkbox" data-filter="hire" value="hourly"> Hourly</label>
+        <label><input type="checkbox" data-filter="hire" value="monthly"> Monthly salary</label>
+        <h4>Max rate</h4>
+        <select id="fRate">
+          <option value="any">Any</option>
+          <option value="h3">Up to $3/hr</option>
+          <option value="h5">Up to $5/hr</option>
+          <option value="m600">Up to $600/mo</option>
+          <option value="m900">Up to $900/mo</option>
+        </select>
+        <h4>English (AI-scored)</h4>
+        <select id="fEnglish">
+          <option value="any">Any</option>
+          <option value="9">9-10</option>
+          <option value="8">8+</option>
+          <option value="7">7+</option>
+        </select>
+        <h4>Availability</h4>
+        <label><input type="checkbox" data-filter="avail" value="av-now" checked> Available now</label>
+        <label><input type="checkbox" data-filter="avail" value="av-open"> Open to offers</label>
+        <h4>Hours / week</h4>
+        <select id="fHours">
+          <option value="any">Any</option>
+          <option value="full">40+ (full-time)</option>
+          <option value="mid">20-30</option>
+          <option value="low">10-20</option>
+        </select>
+      </aside>
+      <div>
+        <div class="results-bar">
+          <span><b id="vaCount">0</b> certified VAs · <span style="color:#0A7A5F;font-weight:700" id="vaNow">0 available now</span></span>
+          <span>Sort: <select id="fSort">
+            <option value="match">Best match</option>
+            <option value="score">Highest score</option>
+            <option value="rate">Lowest rate</option>
+            <option value="reviews">Most reviews</option>
+          </select></span>
+        </div>
+        <div class="vagrid" id="vaGrid"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/data.js"></script>
+<script src="assets/browse.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

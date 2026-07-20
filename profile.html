@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VA Profile — TopRatedVAs.com</title>
+<meta name="description" content="Certified VA profile: test scores, AI-scored English, proof videos, and verified reviews. Unlock contact info to hire directly.">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="profile">
+
+<main>
+  <div class="prof-hero">
+    <div class="wrap">
+      <div class="prof-id">
+        <div class="avatar" id="pAvatar" style="background:linear-gradient(135deg,#0FB893,#0A6E5A)">··</div>
+        <div>
+          <h1 id="pName">Loading…</h1>
+          <div class="sub" id="pLoc"></div>
+          <div class="subrow" id="pBadges"></div>
+        </div>
+      </div>
+      <div class="prof-cta">
+        <div class="rate" id="pRate"></div>
+        <div class="neg" id="pNeg"></div>
+        <button class="btn btn-amber btn-big" data-unlock style="width:100%;margin-top:13px">🔓 Unlock Contact — $29</button>
+        <button class="btn btn-outline" style="width:100%;margin-top:9px" onclick="location.href='pricing.html'">Or use a credit pack</button>
+        <div class="gnote">✓ 7-day response guarantee — free replacement credit if no reply</div>
+      </div>
+    </div>
+  </div>
+  <div class="prof-body">
+    <div class="wrap">
+      <div>
+        <div class="panel">
+          <h3>🙋 About this VA <span class="badge b-cert">Example profile</span></h3>
+          <p id="pBio" style="font-size:14px;color:var(--ink-soft)"></p>
+        </div>
+        <div class="panel">
+          <h3>📊 Certification scores</h3>
+          <div id="pScores"></div>
+        </div>
+        <div class="panel">
+          <h3>🎬 Proof videos</h3>
+          <div class="vid-grid">
+            <div class="vidbox"><div class="play">▶</div><div class="cap">Assigned work video — live checklist demo</div></div>
+            <div class="vidbox"><div class="play">▶</div><div class="cap">Business summary — explains the full EcomSniper model</div></div>
+          </div>
+          <div class="notebox">Work video recorded against a personal checklist generated at test time — it cannot be borrowed or pre-recorded. Identity stated on camera. <b>(Demo placeholders — real videos in the live product.)</b></div>
+        </div>
+        <div class="panel">
+          <h3>⭐ Verified reviews <span class="badge b-cert">unlock-verified only</span></h3>
+          <div class="review"><div class="rv-top"><span><b>R. T. — eBay store, 3,200 listings</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★★</span></div>Handled 40+ messages/day and cut our case rate in half. Knowledge matched the test scores exactly.</div>
+          <div class="review"><div class="rv-top"><span><b>J. M. — 2-store operator</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★★</span></div>Responded within hours of unlock. Started part-time, now full-time.</div>
+          <div class="review"><div class="rv-top"><span><b>D. K. — new dropshipper</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★☆</span></div>Great with buyers. Studying for the next certification now.</div>
+          <div class="notebox">Only employers who unlocked this VA can leave a review — no anonymous or fake ratings. <b>(Demo reviews.)</b></div>
+        </div>
+      </div>
+      <div>
+        <div class="panel locked-panel">
+          <div class="lock-ic">🔒</div>
+          <h3>Contact info is locked</h3>
+          <div class="ghost-line" style="width:70%"></div>
+          <div class="ghost-line" style="width:55%"></div>
+          <div class="ghost-line" style="width:64%"></div>
+          <p style="margin-top:12px">Full name, WhatsApp/Telegram, email, resume, and OnlineJobs.ph / Upwork links reveal after unlock — and stay in your dashboard forever.</p>
+          <button class="btn btn-amber" data-unlock style="width:100%">Unlock for $29</button>
+        </div>
+        <div class="panel">
+          <h3>📋 Quick facts</h3>
+          <ul class="facts" id="pFacts"></ul>
+        </div>
+        <div class="panel" style="background:#F3F8F6;border-color:#CDE8DD">
+          <h3>🛡️ Why trust this profile?</h3>
+          <p style="font-size:13px;color:var(--ink-soft)">Randomized scenario exams · speed-scored answers · assigned-checklist video proof · identity stated on camera · AI + human review · 1-year suspension for any cheating.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="assets/data.js"></script>
+<script src="assets/profile.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

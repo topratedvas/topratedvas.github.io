@@ -67,6 +67,25 @@
     +   '</div>'
     + '</div>';
 
+  /* ---------- UNLOCK MODAL (contact reveal — simulated in v1) ---------- */
+  var MODAL = ''
+    + '<div class="modal-bg" id="unlockModal" onclick="if(event.target===this)TRV.closeUnlock()">'
+    +   '<div class="modal">'
+    +     '<button class="mx" type="button" onclick="TRV.closeUnlock()">✕</button>'
+    +     '<h3 id="umTitle">Unlock this VA’s contact info?</h3>'
+    +     '<p>One-time $29 (or 1 credit). Full name, WhatsApp, email, résumé, and profile links reveal instantly and stay in your dashboard <b>forever</b>. Covered by the 7-day response guarantee.</p>'
+    +     '<div class="revealed" id="umRevealed">'
+    +       '<div>👤 <b>[ Full name revealed ]</b></div>'
+    +       '<div>📱 WhatsApp: <b>[ verified number ]</b></div>'
+    +       '<div>✉️ <b>[ email address ]</b></div>'
+    +       '<div>🔗 OnlineJobs.ph · Résumé PDF · Upwork</div>'
+    +       '<div style="color:#0A7A5F;font-weight:700;font-size:12.5px;margin-top:4px">✓ Saved to My Unlocked VAs — yours forever</div>'
+    +     '</div>'
+    +     '<button class="btn btn-amber btn-big" id="umBtn" style="width:100%" onclick="TRV.doUnlock()">Confirm unlock — $29 <span style="font-weight:500;font-size:12px">(demo)</span></button>'
+    +     '<div style="font-size:11px;color:var(--ink-soft);text-align:center;margin-top:8px">Payments are simulated in this demo — no charge, and contact fields are placeholders.</div>'
+    +   '</div>'
+    + '</div>';
+
   var BOT = {
     unlock: ["How do unlocks work?", "Browse every profile free — scores, videos, reviews, rates. When you find your VA, pay <b>$29</b> (or 1 credit) to reveal their name and contact info. It’s yours <b>forever</b>, saved in your dashboard. Credit packs: 5 for $79 or 15 for $199."],
     cert: ["How do I get certified?", "1) Study the free course. 2) Pay for your exam ($15 first, discounts after). 3) Pass a randomized scenario exam (80+ = Certified, 90+ = Pro, 95+ = Elite). 4) Record your two proof videos. 5) AI review approves you — usually within hours. Your first pass includes 2 months listed free!"],
@@ -122,6 +141,22 @@
       document.querySelectorAll('#langMenu button').forEach(function (b) { b.classList.remove('on'); });
       if (e && e.target) e.target.classList.add('on');
       try { localStorage.setItem('trv_lang', l); } catch (x) {}
+    },
+    openUnlock: function (name) {
+      var m = document.getElementById('unlockModal'); if (!m) return;
+      document.getElementById('umTitle').textContent = 'Unlock ' + (name || 'this VA') + '’s contact info?';
+      document.getElementById('umRevealed').classList.remove('show');
+      var b = document.getElementById('umBtn');
+      b.innerHTML = 'Confirm unlock — $29 <span style="font-weight:500;font-size:12px">(demo)</span>';
+      b.classList.remove('btn-teal'); b.classList.add('btn-amber'); b.onclick = TRV.doUnlock;
+      m.classList.add('show');
+    },
+    closeUnlock: function () { var m = document.getElementById('unlockModal'); if (m) m.classList.remove('show'); },
+    doUnlock: function () {
+      document.getElementById('umRevealed').classList.add('show');
+      var b = document.getElementById('umBtn');
+      b.innerHTML = '✓ Unlocked — saved to your dashboard';
+      b.classList.remove('btn-amber'); b.classList.add('btn-teal'); b.onclick = TRV.closeUnlock;
     }
   };
   window.TRV = TRV;
@@ -129,7 +164,7 @@
   /* ---------- MOUNT ---------- */
   function mount() {
     document.body.insertAdjacentHTML('afterbegin', HEADER);
-    document.body.insertAdjacentHTML('beforeend', FOOTER + CHAT);
+    document.body.insertAdjacentHTML('beforeend', FOOTER + CHAT + MODAL);
 
     // highlight active nav
     var page = document.body.getAttribute('data-page');
