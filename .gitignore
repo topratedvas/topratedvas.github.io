@@ -1,0 +1,26 @@
+# --- Private planning docs (kept local, never published) ---
+PROJECT-STATUS.md
+topratedvas-blueprint.md
+topratedvas-mockup.html
+docs/
+_to_delete/
+logo/
+
+# --- Secrets: only the PUBLIC Firebase config is ever committed ---
+# Service-account keys and admin credentials must never enter git.
+*serviceAccount*.json
+*-service-account*.json
+*.key
+.env
+.env.*
+.firebase/
+firebase-debug.log
+.runtimeconfig.json
+
+# --- OS / editor junk ---
+Thumbs.db
+ehthumbs.db
+.DS_Store
+Desktop.ini
+*.tmp
+*~
