@@ -30,6 +30,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .logo{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque';font-weight:800;font-size:20px;letter-spacing:-.02em;cursor:pointer}
 .logo .mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--teal),#0A6E5A);display:grid;place-items:center;color:#fff;font-size:16px}
 .logo .tld{color:var(--teal-deep);font-weight:600}
+.logo .wordmark{white-space:nowrap}
 .navlinks{display:flex;gap:2px;margin-left:6px}
 .navlinks>button{color:#43586A;font-size:14.5px;font-weight:600;padding:9px 13px;border-radius:9px;transition:.15s}
 .navlinks>button:hover{color:var(--ink);background:#F2F0E8}
