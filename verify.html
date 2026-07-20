@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify a Certificate — TopRatedVAs.com</title>
+<meta name="description" content="Verify a TopRatedVAs certification by ID (e.g. TR-1042). Confirms certification status and scores only — no contact information is shown.">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="verify">
+
+<main>
+  <div class="browse-head">
+    <div class="wrap">
+      <h1>Verify a certificate</h1>
+      <p>Enter a certificate ID to confirm a VA's certification status. This page shows certifications only — never contact info.</p>
+    </div>
+  </div>
+  <div class="wrap" style="padding:40px 24px 70px">
+    <div class="verify-box">
+      <div style="display:flex;gap:10px;margin-bottom:22px">
+        <input id="vInput" type="text" placeholder="e.g. TR-1042" style="flex:1;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:inherit;font-size:15px;background:#fff;outline:none">
+        <button class="btn btn-navy" onclick="TRV_verifyGo()">Verify</button>
+      </div>
+      <div id="verifyResult"></div>
+      <p class="muted" style="text-align:center;margin-top:20px">Try an example: <a href="verify.html?cert=TR-1042" style="color:var(--teal-deep);font-weight:600">TR-1042</a> · <a href="verify.html?cert=TR-1112" style="color:var(--teal-deep);font-weight:600">TR-1112</a></p>
+    </div>
+  </div>
+</main>
+
+<script src="assets/data.js"></script>
+<script src="assets/verify.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
