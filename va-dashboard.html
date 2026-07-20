@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VA Dashboard — TopRatedVAs.com</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="vadash" data-auth="va" data-auth-loading>
+
+<main>
+  <div class="dash">
+    <aside class="dash-side">
+      <div class="dz">
+        <div class="who" data-auth-name>…</div>
+        <div class="role-tag">VA Account</div>
+      </div>
+      <nav class="dnav">
+        <button class="on">🏠 Overview</button>
+        <button onclick="alert('Coming in Phase 6 — certifications.')">🎓 My Certifications</button>
+        <button onclick="location.href='sample-test.html'">📝 Take a Test</button>
+        <button onclick="alert('Coming in Phase 6 — proof videos.')">🎬 My Videos</button>
+        <button onclick="alert('Coming in Phase 6 — listing & renewal.')">📇 My Listing &amp; Renewal</button>
+        <button onclick="alert('Coming in Phase 6 — reviews.')">⭐ My Reviews</button>
+        <button onclick="alert('Coming in Phase 6 — Discord community.')">💬 Discord Community</button>
+        <button data-logout style="margin-top:12px;color:#9FB8C8">↩ Log out</button>
+      </nav>
+    </aside>
+    <div class="dash-main">
+      <h2>Welcome back, <span data-auth-name>…</span> 👋</h2>
+      <div class="dsub">Signed in as <span data-auth-email></span> · VA account</div>
+      <div class="panel" style="background:linear-gradient(120deg,#0E3A2E,var(--navy-900));color:#DFEAF2;border:none">
+        <h3 style="color:#fff">✅ You're signed in</h3>
+        <p style="color:#93ADBF;font-size:14px">Authentication is live. Your VA workspace — certifications, the test engine, proof videos, listing &amp; renewal, and reviews — is being built in Phase 6. Everything you do here will be saved to your account.</p>
+      </div>
+      <div class="statrow">
+        <div class="stat"><div class="sv" style="color:#0A8A70">0</div><div class="sl">Certifications earned</div></div>
+        <div class="stat"><div class="sv">—</div><div class="sl">Best score</div></div>
+        <div class="stat"><div class="sv" style="color:#B5722A">0</div><div class="sl">Unlocked by employers (30d)</div></div>
+        <div class="stat"><div class="sv">—</div><div class="sl">Listing status</div></div>
+      </div>
+      <div class="notebox">Next up (Phase 6): take a certification exam from the free course, then post your two proof videos. <a href="course.html" style="color:#0A8A70;font-weight:700">Study the free course →</a></div>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="assets/auth.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

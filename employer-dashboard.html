@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employer Dashboard — TopRatedVAs.com</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="empdash" data-auth="employer" data-auth-loading>
+
+<main>
+  <div class="dash">
+    <aside class="dash-side">
+      <div class="dz">
+        <div class="who" data-auth-name>…</div>
+        <div class="role-tag" style="color:#FFAA2B">Employer Account</div>
+      </div>
+      <nav class="dnav">
+        <button class="on">🏠 Overview</button>
+        <button onclick="location.href='browse.html'">🔎 Browse VAs</button>
+        <button onclick="alert('Coming in Phase 7 — your unlocked VAs.')">🔓 My Unlocked VAs</button>
+        <button onclick="alert('Coming in Phase 7 — credits.')">🪙 My Credits</button>
+        <button onclick="alert('Coming in Phase 7 — check-in surveys.')">📋 Check-in Surveys</button>
+        <button onclick="alert('Coming in Phase 7 — reviews.')">⭐ My Reviews</button>
+        <button data-logout style="margin-top:12px;color:#9FB8C8">↩ Log out</button>
+      </nav>
+    </aside>
+    <div class="dash-main">
+      <h2>Your hiring HQ 👋</h2>
+      <div class="dsub">Signed in as <span data-auth-email></span> · Employer account</div>
+      <div class="panel" style="background:linear-gradient(120deg,var(--navy-900),var(--navy-700));color:#DFEAF2;border:none">
+        <h3 style="color:#fff">✅ You're signed in</h3>
+        <p style="color:#AFC6D4;font-size:14px">Authentication is live. Unlocking VAs, credits, private notes, check-in surveys, and reviews arrive in Phase 7. Every VA you unlock will be saved here forever.</p>
+      </div>
+      <div class="statrow">
+        <div class="stat"><div class="sv" style="color:#B5722A">0</div><div class="sl">Credits available</div></div>
+        <div class="stat"><div class="sv">0</div><div class="sl">VAs unlocked</div></div>
+        <div class="stat"><div class="sv">0</div><div class="sl">Surveys completed</div></div>
+        <div class="stat"><div class="sv">0</div><div class="sl">Reviews left</div></div>
+      </div>
+      <div class="notebox">Next up (Phase 7): browse certified VAs and unlock the ones you want. <a href="browse.html" style="color:#0A8A70;font-weight:700">Browse VAs →</a></div>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="assets/auth.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

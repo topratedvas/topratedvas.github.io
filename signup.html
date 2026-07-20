@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create your account — TopRatedVAs.com</title>
+<meta name="description" content="Create a TopRatedVAs account as a VA (get certified) or an employer (hire certified VAs).">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="signup">
+
+<main>
+  <div class="authwrap">
+    <div class="authcard">
+      <h1>Create your account</h1>
+      <div class="sub">Join as a VA to get certified, or as an employer to hire certified VAs.</div>
+      <form id="signupForm" novalidate>
+        <div class="roletoggle">
+          <label><input type="radio" name="role" value="employer" checked><span>I'm an Employer</span><small>Hire certified VAs</small></label>
+          <label><input type="radio" name="role" value="va"><span>I'm a VA</span><small>Get certified</small></label>
+        </div>
+        <div class="field"><label for="su-name">Name</label><input id="su-name" name="name" type="text" autocomplete="name" placeholder="Your name" required></div>
+        <div class="field"><label for="su-email">Email</label><input id="su-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+        <div class="field"><label for="su-pass">Password</label><input id="su-pass" name="password" type="password" autocomplete="new-password" placeholder="At least 6 characters" minlength="6" required></div>
+        <div class="autherr" id="authError"></div>
+        <button class="btn btn-teal btn-big" type="submit" style="width:100%">Create account</button>
+      </form>
+      <div class="authalt">Already have an account? <a href="login.html">Log in</a></div>
+    </div>
+  </div>
+</main>
+
+<script type="module" src="assets/auth.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
