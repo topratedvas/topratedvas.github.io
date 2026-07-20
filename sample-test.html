@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sample Certification Exam — TopRatedVAs.com</title>
+<meta name="description" content="Try a sample scenario-based certification question. Real exams draw 20 randomized questions with shuffled answer order and speed-scored responses.">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="test">
+
+<main>
+  <div class="browse-head">
+    <div class="wrap">
+      <h1>Sample certification exam</h1>
+      <p>Customer Service VA · question 3 of 20 · randomized from a 30-question bank per certification — no two VAs see the same exam.</p>
+    </div>
+  </div>
+  <div class="test-shell">
+    <div class="test-rules">
+      <b>Exam rules (shown before every exam)</b>
+      Answers are typed/selected by you alone — no copy-paste, no AI tools (detection active), no second device. Your answer speed is tracked: quick answers score full marks, ~1 minute is fine, long delays progressively reduce points. You may pause between questions. Cheating = 1-year suspension; second offense = lifetime ban.
+    </div>
+    <div class="test-top">
+      <span class="mono">QUESTION 3 / 20 · CUSTOMER SERVICE</span>
+      <span class="mono" id="qTimer">⏱ 0:12 elapsed</span>
+    </div>
+    <div class="qcard">
+      <div class="q-scenario">"Hi, I ordered this as a birthday gift and it arrived in an Amazon box with a packing slip showing a LOWER price than what I paid on eBay. This feels like a scam. I want a refund of the difference or I'm opening a case and leaving negative feedback."</div>
+      <h2>What is the BEST first response?</h2>
+      <div class="opt" onclick="pickOpt(this)"><span class="key">A</span><span>Apologize, explain that you use multiple fulfillment warehouses, and offer a partial refund of the price difference as a goodwill gesture before they open a case.</span></div>
+      <div class="opt" onclick="pickOpt(this)"><span class="key">B</span><span>Tell the buyer the price difference is due to eBay fees and they agreed to the listed price at checkout, so no refund is owed.</span></div>
+      <div class="opt" onclick="pickOpt(this)"><span class="key">C</span><span>Refund the full order immediately and block the buyer to protect your feedback score.</span></div>
+      <div class="opt" onclick="pickOpt(this)"><span class="key">D</span><span>Ignore the message for 24 hours — angry buyers usually cool off, and replying quickly signals guilt.</span></div>
+      <div class="speed"><span>Answer speed</span><div class="track"><i id="speedBar"></i></div><span id="speedLabel" style="color:#0A8A70;font-weight:700">Full marks zone</span></div>
+      <div style="display:flex;gap:11px">
+        <button class="btn btn-teal btn-big" style="flex:1" onclick="alert('Demo: answer submitted! In the real exam the next randomized question loads instantly.')">Submit answer →</button>
+        <button class="btn btn-outline" onclick="alert('Demo: exam paused. The timer stops between questions — but total answer time still counts toward your speed rating.')">⏸ Pause</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:26px">
+      <button class="btn btn-outline" onclick="location.href='course.html'">← Back to the free course</button>
+    </div>
+  </div>
+</main>
+
+<script src="assets/test.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

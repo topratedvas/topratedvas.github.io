@@ -152,6 +152,9 @@
       m.classList.add('show');
     },
     closeUnlock: function () { var m = document.getElementById('unlockModal'); if (m) m.classList.remove('show'); },
+    demoBuy: function (label) {
+      alert('Demo checkout — ' + label + '\n\nPayments are simulated in this version, so nothing was charged. In the live product this is a real checkout and the credits would be added to your Employer dashboard.');
+    },
     doUnlock: function () {
       document.getElementById('umRevealed').classList.add('show');
       var b = document.getElementById('umBtn');
