@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Take a Certification Exam — TopRatedVAs.com</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body data-page="test" data-auth="va">
+
+<main>
+  <div id="examRoot">
+    <div class="test-shell"><div class="qcard" style="text-align:center">
+      <div style="font-size:32px">⏳</div>
+      <p style="color:var(--ink-soft);margin-top:8px">Loading your exam…</p>
+    </div></div>
+  </div>
+</main>
+
+<!-- content banks + tier helper (regular scripts) -->
+<script src="assets/data.js"></script>
+<script src="assets/questions.js"></script>
+<!-- auth guard (VA-only) + the exam engine (modules) -->
+<script type="module" src="assets/auth.js"></script>
+<script type="module" src="assets/test-engine.js"></script>
+<!-- shared shell (header/footer/chatbot/modal) -->
+<script src="assets/app.js"></script>
+</body>
+</html>

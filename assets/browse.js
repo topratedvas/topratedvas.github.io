@@ -97,6 +97,10 @@ async function load() {
   const statics = (window.TRV_VAS || []).map(normVa);
   let remote = [];
   try { remote = (await getVaProfiles()).map(normVa); } catch (e) { remote = []; }
+  // Only show listings that are live (seeded examples are live). Real VAs
+  // start as "pending-listing" after passing a test and appear once they
+  // finish their listing details (Phase 6b).
+  remote = remote.filter(v => v.isExample || v.status === "live");
   if (remote.length) {
     // preserve the curated static order, then append any extras (real VAs)
     const order = {}; statics.forEach((v, i) => order[v.id] = i);

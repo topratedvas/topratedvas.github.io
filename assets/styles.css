@@ -335,6 +335,8 @@ body[data-auth-loading] .dash-main>*{opacity:.35}
 .qcard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:32px;box-shadow:var(--shadow)}
 .qcard .q-scenario{background:var(--navy-950);color:#D7E5EF;border-radius:12px;padding:17px 19px;font-size:13.5px;margin-bottom:20px;font-style:italic}
 .qcard .q-scenario::before{content:"BUYER MESSAGE — SCENARIO";font-style:normal;display:block;font-size:9.5px;font-weight:800;letter-spacing:.12em;color:var(--teal);margin-bottom:7px}
+.qcard .q-ctx{background:var(--navy-950);color:#D7E5EF;border-radius:12px;padding:17px 19px;font-size:13.5px;margin-bottom:20px;font-style:italic}
+.qcard .q-ctx .q-ctx-tag{font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.12em;color:var(--teal);margin-bottom:7px;text-transform:uppercase}
 .qcard h2{font-size:19px;font-weight:700;letter-spacing:-.01em;margin-bottom:18px;line-height:1.35;font-family:'Public Sans'}
 .opt{display:flex;gap:13px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:.15s;font-size:14px}
 .opt:hover{border-color:var(--teal);background:#F6FBF9}
