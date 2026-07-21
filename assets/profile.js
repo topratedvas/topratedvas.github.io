@@ -95,7 +95,11 @@ function renderContact(res) {
 }
 
 async function unlock() {
-  if (!auth.currentUser) { alert("Please log in (as an employer) to unlock this VA's contact info."); location.href = "login.html"; return; }
+  if (!auth.currentUser) {
+    try { sessionStorage.setItem("trv_after_login", location.pathname + location.search); } catch (x) {}
+    location.href = "login.html";
+    return;
+  }
   const ub = document.getElementById("unlockBtn");
   if (ub) { ub.disabled = true; ub.textContent = "Unlocking…"; }
   document.querySelectorAll("[data-unlock]").forEach(b => b.disabled = true);
@@ -103,7 +107,8 @@ async function unlock() {
     await createUnlock(currentVaId);
     renderContact(await getContact(currentVaId));
   } catch (e) {
-    alert("Unlock failed: " + (e.code || e.message));
+    const p = document.getElementById("contactPanel");
+    if (p) p.insertAdjacentHTML("beforeend", '<div class="autherr" style="display:block;margin-top:10px">Unlock failed: ' + (e.code || e.message) + "</div>");
     if (ub) { ub.disabled = false; ub.textContent = "Unlock for $29"; }
     document.querySelectorAll("[data-unlock]").forEach(b => b.disabled = false);
   }

@@ -82,7 +82,9 @@ async function handleLogin(e) {
     const sessionId = newSessionId();
     await updateDoc(doc(db, "users", cred.user.uid), { sessionId });
     localStorage.setItem(SESSION_KEY, sessionId);
-    window.location.href = ROLE_DASH[data.role] || ROLE_DASH.employer;
+    let dest = ROLE_DASH[data.role] || ROLE_DASH.employer;
+    try { const after = sessionStorage.getItem("trv_after_login"); if (after) { sessionStorage.removeItem("trv_after_login"); dest = after; } } catch (x) {}
+    window.location.href = dest;
   } catch (err) {
     showError(friendly(err.code || err.message));
     btn.disabled = false; btn.textContent = "Sign in";
