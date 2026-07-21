@@ -434,7 +434,7 @@ function renderListing() {
         '<div class="field" style="flex:1;margin:0"><label>' + t("lName") + '</label><input id="fName" type="text" value="' + esc(p.name || UDATA.name || "") + '"><div class="hint">' + t("hName") + "</div></div></div>" +
       '<div class="field"><label>' + t("lColor") + '</label><div class="avaswatch" id="gradSet">' + swatches + "</div></div>" +
       '<div class="row2"><div class="field"><label>' + t("lCountry") + ' <span style="color:#B02A1F">*</span></label><select id="fCountry">' + countryOpts + "</select></div>" +
-        '<div class="field"><label>' + t("lCity") + '</label><input id="fCity" type="text" value="' + esc(p.city || "") + '"></div></div>" +
+        '<div class="field"><label>' + t("lCity") + '</label><input id="fCity" type="text" value="' + esc(p.city || "") + '"></div></div>' +
       '<div class="field" style="max-width:220px"><label>' + t("lTz") + '</label><select id="fTz">' + tzOpts + "</select></div></div>" +
 
     // RATES
@@ -443,7 +443,7 @@ function renderListing() {
         '<label class="chkbox' + (hireHourly ? " on" : "") + '" id="lblHourly"><input type="checkbox" id="fHourlyOn"' + (hireHourly ? " checked" : "") + "> " + t("hHourly") + "</label>" +
         '<label class="chkbox' + (hireMonthly ? " on" : "") + '" id="lblMonthly"><input type="checkbox" id="fMonthlyOn"' + (hireMonthly ? " checked" : "") + "> " + t("hMonthly") + "</label></div></div>" +
       '<div class="row2"><div class="field"><label>' + t("lHourly") + '</label><input id="fHourly" type="number" min="0" step="0.25" value="' + (p.hourly != null ? p.hourly : "") + '"></div>' +
-        '<div class="field"><label>' + t("lMonthly") + '</label><input id="fMonthly" type="number" min="0" step="10" value="' + (p.monthly != null ? p.monthly : "") + '"></div></div>" +
+        '<div class="field"><label>' + t("lMonthly") + '</label><input id="fMonthly" type="number" min="0" step="10" value="' + (p.monthly != null ? p.monthly : "") + '"></div></div>' +
       '<div class="row2"><div class="field"><label>' + t("lHours") + '</label><input id="fHours" type="number" min="1" max="60" value="' + (p.hours != null ? p.hours : 40) + '"></div>' +
         '<div class="field"><label>' + t("lNeg") + '</label><select id="fNeg"><option value="yes"' + (p.negotiable !== false ? " selected" : "") + ">" + t("yes") + '</option><option value="no"' + (p.negotiable === false ? " selected" : "") + ">" + t("no") + "</option></select></div></div></div>" +
 
