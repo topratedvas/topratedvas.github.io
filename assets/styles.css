@@ -405,3 +405,71 @@ footer .fine{margin-top:24px;padding-top:18px;border-top:1px solid rgba(255,255,
  .navlinks{display:none}
  .nav-cta .btn-outline{display:none}
 }
+
+/* ============================================================
+   Phase 6B — VA dashboard + listing editor
+   Plain, high-contrast, mobile-first; clear for ESL users.
+   ============================================================ */
+.dsec{font-size:16px;font-weight:800;margin:30px 0 12px;scroll-margin-top:80px}
+.dsec:first-of-type{margin-top:6px}
+.meter.wide{width:100%}
+
+/* Big status banner */
+.statusbanner{display:flex;align-items:center;gap:14px;border-radius:16px;padding:18px 20px;margin-bottom:20px;border:1px solid var(--line)}
+.statusbanner .sb-emoji{font-size:30px;line-height:1}
+.statusbanner .sb-t{font-weight:800;font-size:17px}
+.statusbanner .sb-s{font-size:13px;opacity:.9;margin-top:2px}
+.statusbanner.live{background:linear-gradient(120deg,#0E3A2E,var(--navy-900));color:#DFEAF2;border:none}
+.statusbanner.live .sb-t{color:#fff}
+.statusbanner.draft{background:#FFF9EE;border-color:#F0E3BC;color:#6B5A22}
+.statusbanner.hidden{background:#F1EFE7;border-color:var(--line);color:#5B5647}
+
+/* "Steps to go live" checklist */
+.progresshead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;font-weight:700;color:var(--ink-soft)}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:10px;margin:0;padding:0}
+.checkitem{display:flex;align-items:center;gap:13px;padding:13px 15px;border:1px solid var(--line);border-radius:13px;background:#FCFBF7}
+.checkitem.done{background:#F1FAF6;border-color:#BFE8DA}
+.checkitem .ci-ic{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:13px;background:#EDEAE0;color:#8A8371}
+.checkitem.done .ci-ic{background:var(--teal);color:#fff}
+.checkitem .ci-txt{flex:1;min-width:0}
+.checkitem .ci-t{font-weight:700;font-size:14px}
+.checkitem.done .ci-t{color:#0A7A5F}
+.checkitem .ci-s{font-size:12.5px;color:var(--ink-soft);margin-top:1px}
+.checkitem .ci-go{flex:none}
+.checkitem .ci-go .btn{padding:7px 14px;font-size:12.5px}
+
+/* Availability chips (selectable) */
+.availset{display:flex;flex-wrap:wrap;gap:9px}
+.availchip{border:1.5px solid var(--line);border-radius:99px;padding:9px 15px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;gap:8px;align-items:center;background:#fff;color:var(--ink);transition:.15s}
+.availchip:hover{border-color:var(--teal)}
+.availchip .dot{width:9px;height:9px;border-radius:50%;background:#C7C0AE}
+.availchip.sel{border-color:var(--teal);background:#E9F8F2;box-shadow:0 0 0 3px rgba(15,184,147,.13)}
+.availchip[data-av="av-now"].sel .dot{background:#0FB893}
+.availchip[data-av="av-open"].sel .dot{background:#E8A93C}
+.availchip[data-av="av-hired"].sel .dot{background:#7C6BC9}
+
+/* Forms (listing editor) */
+.field textarea,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-family:inherit;font-size:15px;background:#FCFBF7;outline:none;color:var(--ink)}
+.field textarea:focus,.field select:focus{border-color:var(--teal)}
+.field textarea{min-height:96px;resize:vertical;line-height:1.5}
+.field .hint{font-size:12px;color:var(--ink-soft);margin-top:5px;font-weight:500}
+.field .cnt{float:right;font-weight:600}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.formgroup{border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;background:var(--card)}
+.formgroup>h4{font-size:14.5px;font-weight:800;margin-bottom:4px}
+.formgroup>.fg-sub{font-size:12.5px;color:var(--ink-soft);margin-bottom:16px}
+.chkrow{display:flex;flex-wrap:wrap;gap:10px}
+.chkbox{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:600;cursor:pointer;background:#fff}
+.chkbox input{width:auto;accent-color:var(--teal);width:16px;height:16px}
+.chkbox.on{border-color:var(--teal);background:#F1FAF6}
+.avaswatch{display:flex;gap:9px;flex-wrap:wrap}
+.avaswatch button{width:40px;height:40px;border-radius:11px;border:2px solid transparent;cursor:pointer}
+.avaswatch button.on{border-color:var(--navy-900);box-shadow:0 0 0 2px #fff inset}
+.miniava{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:19px;font-family:'Bricolage Grotesque'}
+.savebar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:15px 0;display:flex;gap:11px;align-items:center;margin-top:8px}
+.savemsg{font-size:13px;font-weight:700}
+
+@media(max-width:620px){
+ .row2{grid-template-columns:1fr}
+ .statusbanner{flex-direction:row}
+}

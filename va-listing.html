@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VA Dashboard — TopRatedVAs.com</title>
+<title>Edit Your Listing — TopRatedVAs.com</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/img/favicon-64.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,21 +11,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700;800&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css">
 </head>
-<body data-page="vadash" data-auth="va">
+<body data-page="valisting" data-auth="va">
 
 <main>
   <div id="vaApp">
-    <div style="padding:60px;text-align:center;color:var(--ink-soft)">⏳ Loading your dashboard…</div>
+    <div style="padding:60px;text-align:center;color:var(--ink-soft)">⏳ Loading…</div>
   </div>
 </main>
 
-<!-- content banks + tier helper -->
 <script src="assets/data.js"></script>
 <script src="assets/questions.js"></script>
-<!-- auth guard (VA-only + single session) + dashboard controller -->
 <script type="module" src="assets/auth.js"></script>
 <script type="module" src="assets/va.js"></script>
-<!-- shared shell (header/footer/chatbot/language switcher) -->
 <script src="assets/app.js"></script>
 </body>
 </html>

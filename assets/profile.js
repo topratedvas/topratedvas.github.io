@@ -21,7 +21,8 @@ function renderPublic(v) {
   const av = document.getElementById("pAvatar");
   if (av) { av.textContent = v.initials; av.style.background = v.grad; }
   set("pName", v.name + ' <span class="badge ' + badgeFor[v.tier] + '">' + v.tierLabel + "</span>");
-  set("pLoc", v.flag + " " + v.city + ", " + v.country + " · " + v.tz + " · Last confirmed available: 2026-07-18");
+  const confirmed = v.lastConfirmed || "2026-07-18";
+  set("pLoc", v.flag + " " + (v.city ? v.city + ", " : "") + v.country + " · " + v.tz + " · Last confirmed available: " + confirmed);
   set("pBadges",
     '<span class="avail ' + v.avail + '">' + v.availLabel + "</span>" +
     '<span class="badge b-cert">✓ Verified WhatsApp</span>' +
@@ -59,7 +60,7 @@ function renderPublic(v) {
     '<li><span class="k">Hours available</span><span class="v">Up to ' + v.hours + " / week</span></li>" +
     '<li><span class="k">Timezone</span><span class="v">' + v.tz + "</span></li>" +
     '<li><span class="k">Experience</span><span class="v">eBay dropshipping</span></li>' +
-    '<li><span class="k">Heartbeat status</span><span class="v" style="color:#0A7A5F">Confirmed 2026-07-18</span></li>' +
+    '<li><span class="k">Heartbeat status</span><span class="v" style="color:#0A7A5F">Confirmed ' + confirmed + "</span></li>" +
     '<li><span class="k">Certificate</span><span class="v mono">verify/' + v.cert + "</span></li>");
   set("pBio", v.bio || "");
 }

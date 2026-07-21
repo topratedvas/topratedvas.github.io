@@ -141,6 +141,8 @@
       document.querySelectorAll('#langMenu button').forEach(function (b) { b.classList.remove('on'); });
       if (e && e.target) e.target.classList.add('on');
       try { localStorage.setItem('trv_lang', l); } catch (x) {}
+      // let JS-rendered pages (VA dashboard / listing editor) re-translate
+      try { window.dispatchEvent(new CustomEvent('trv:lang', { detail: l })); } catch (x) {}
     },
     openUnlock: function (name) {
       var m = document.getElementById('unlockModal'); if (!m) return;
