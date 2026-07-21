@@ -41,9 +41,11 @@ async function seedAll() {
   let n = 0;
   for (let i = 0; i < vas.length; i++) {
     const v = vas[i];
-    const { id, ...pub } = v;
+    const { id, certs, ...pub } = v;
+    // Firestore forbids arrays-of-arrays, so store certs as objects.
+    const certsMap = (certs || []).map(c => ({ role: c[0], score: c[1] }));
     await setDoc(doc(db, "vaProfiles", id), {
-      ...pub, isExample: true, ownerUid: "system", status: "live", createdAt: serverTimestamp()
+      ...pub, certs: certsMap, isExample: true, ownerUid: "system", status: "live", createdAt: serverTimestamp()
     });
     await setDoc(doc(db, "vaProfiles", id, "private", "contact"), contactFor(v, i));
     n++;
