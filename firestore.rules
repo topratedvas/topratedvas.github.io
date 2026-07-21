@@ -1,9 +1,10 @@
 rules_version = '2';
 
-// TopRatedVAs.com — Firestore security rules (Phase 5)
-// Contact info lives in vaProfiles/{vaId}/private/contact and is UNREADABLE
-// from the browser unless: you are the VA who owns it, you hold an unlock
-// record for it, or you are the admin. This is enforced here, not in the UI.
+// TopRatedVAs.com — Firestore security rules (Phase 7)
+// Contact info in vaProfiles/{vaId}/private/contact is UNREADABLE from the
+// browser unless you own it, hold an unlock for it, or are the admin.
+// Phase 7 adds employer-private CRM data on the unlock doc, a credits
+// wallet, verified reviews (public read, unlock-gated write), and saves.
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -11,6 +12,7 @@ service cloud.firestore {
     function signedIn() { return request.auth != null; }
     function admin()    { return signedIn() && request.auth.token.email == 'topratedvas@gmail.com'; }
     function uid()      { return request.auth.uid; }
+    function holdsUnlock(vaId) { return exists(/databases/$(database)/documents/unlocks/$(uid() + '_' + vaId)); }
 
     // Account/role docs — a user can touch only their own.
     match /users/{userId} {
@@ -28,21 +30,52 @@ service cloud.firestore {
       match /private/{doc} {
         allow read: if admin()
           || (signedIn() && get(/databases/$(database)/documents/vaProfiles/$(vaId)).data.ownerUid == uid())
-          || (signedIn() && exists(/databases/$(database)/documents/unlocks/$(uid() + '_' + vaId)));
+          || (signedIn() && holdsUnlock(vaId));
         allow write: if admin()
           || (signedIn() && get(/databases/$(database)/documents/vaProfiles/$(vaId)).data.ownerUid == uid());
       }
     }
 
-    // Unlock records — an employer can read/create only their own.
+    // Unlock records — also hold the employer's PRIVATE CRM data (status,
+    // notes, surveys). An employer reads/creates/updates only their own;
+    // they can't change who owns it or which VA it points to.
     match /unlocks/{unlockId} {
       allow read:   if admin() || (signedIn() && resource.data.employerUid == uid());
       allow create: if admin() || (signedIn() && request.resource.data.employerUid == uid()
                                     && unlockId == uid() + '_' + request.resource.data.vaId);
-      allow update, delete: if admin();
+      allow update: if admin() || (signedIn()
+                                    && resource.data.employerUid == uid()
+                                    && request.resource.data.employerUid == resource.data.employerUid
+                                    && request.resource.data.vaId == resource.data.vaId);
+      allow delete: if admin();
     }
 
-    // Everything else is denied (Phase 7 opens credits/surveys/reviews).
+    // Credits wallet — one doc per employer, keyed by their uid.
+    match /credits/{walletId} {
+      allow read, create, update: if signedIn() && walletId == uid();
+      allow delete: if false;
+    }
+
+    // Verified reviews — PUBLIC read (shown on VA profiles); an employer may
+    // write only their own review AND only for a VA they have unlocked.
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create, update: if signedIn()
+        && request.resource.data.employerUid == uid()
+        && reviewId == uid() + '_' + request.resource.data.vaId
+        && holdsUnlock(request.resource.data.vaId);
+      allow delete: if admin() || (signedIn() && resource.data.employerUid == uid());
+    }
+
+    // Saves / shortlist — an employer's private watchlist of VAs.
+    match /saves/{saveId} {
+      allow read:   if signedIn() && resource.data.employerUid == uid();
+      allow create: if signedIn() && request.resource.data.employerUid == uid()
+                                   && saveId == uid() + '_' + request.resource.data.vaId;
+      allow delete: if signedIn() && resource.data.employerUid == uid();
+    }
+
+    // Everything else is denied.
     match /{document=**} { allow read, write: if false; }
   }
 }

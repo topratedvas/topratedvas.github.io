@@ -3,13 +3,14 @@
    fields, and drive the live contact protection (🔒 → unlock → reveal).
    Contact reads are gated by security rules, not this code. ES module.
    ============================================================ */
-import { getVaProfile, getContact, createUnlock } from "./db.js";
+import { getVaProfile, getContact, createUnlock, getReviewsForVa, isSaved, addSave, removeSave } from "./db.js";
 import { auth } from "./firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const meta = window.TRV_scoreMeta;
 const badgeFor = { elite: "b-elite", pro: "b-pro", cert: "b-cert" };
 let currentVaId = null;
+let currentVa = null;
 
 function normCerts(certs) { return (certs || []).map(c => Array.isArray(c) ? { role: c[0], score: c[1] } : c); }
 function normVa(v) { return Object.assign({}, v, { certs: normCerts(v.certs) }); }
@@ -82,6 +83,40 @@ function renderPublic(v) {
   set("pBio", v.bio || "");
   renderWritten(v.writtenResponses);
   renderVideos(v);
+}
+
+// Real verified reviews (replace the demo ones once any exist).
+async function loadReviews(vaId) {
+  let list = [];
+  try { list = await getReviewsForVa(vaId); } catch (e) { list = []; }
+  if (!list.length) return;
+  const box = document.getElementById("pReviews"), note = document.getElementById("pReviewNote");
+  if (box) box.innerHTML = list.sort((a, b) => (b.at || 0) - (a.at || 0)).map(r => {
+    const stars = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
+    const who = r.label ? esc(r.label) : "Verified employer";
+    return '<div class="review"><div class="rv-top"><span><b>' + who + '</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">' + stars + "</span></div>" + esc(r.text || "") + "</div>";
+  }).join("");
+  if (note) note.innerHTML = "Only employers who unlocked this VA can leave a review — no anonymous or fake ratings.";
+}
+
+// "Save to shortlist" for signed-in employers.
+async function wireSave(user) {
+  const btn = document.getElementById("pSave");
+  if (!btn) return;
+  if (!user) { btn.style.display = "none"; return; }
+  btn.style.display = "";
+  let saved = await isSaved(currentVaId);
+  const paint = () => { btn.textContent = saved ? "❤ Saved to shortlist" : "🤍 Save to shortlist"; };
+  paint();
+  btn.onclick = async () => {
+    btn.disabled = true;
+    try {
+      if (saved) { await removeSave(currentVaId); saved = false; }
+      else { await addSave(currentVaId, currentVa ? { name: currentVa.name, initials: currentVa.initials, grad: currentVa.grad } : {}); saved = true; }
+      paint();
+    } catch (e) {}
+    btn.disabled = false;
+  };
 }
 
 // Extract a YouTube video id from watch / youtu.be / embed / shorts URLs.
@@ -162,13 +197,15 @@ async function init() {
   let v = null;
   try { v = await getVaProfile(currentVaId); } catch (e) { v = null; }
   if (!v) v = (window.TRV_VAS || []).find(x => x.id === currentVaId) || (window.TRV_VAS || [])[0];
-  if (v) { currentVaId = v.id; renderPublic(normVa(v)); }
+  if (v) { currentVaId = v.id; currentVa = normVa(v); renderPublic(currentVa); }
 
   document.querySelectorAll("[data-unlock]").forEach(b => b.addEventListener("click", unlock));
+  loadReviews(currentVaId);
 
   // Load the (protected) contact once auth state is known, and re-check on login/logout.
-  onAuthStateChanged(auth, async () => {
+  onAuthStateChanged(auth, async (user) => {
     renderContact(await getContact(currentVaId));
+    wireSave(user);
   });
 }
 

@@ -29,6 +29,7 @@
         <div class="neg" id="pNeg"></div>
         <button class="btn btn-amber btn-big" data-unlock style="width:100%;margin-top:13px">🔓 Unlock Contact — $29</button>
         <button class="btn btn-outline" style="width:100%;margin-top:9px" onclick="location.href='pricing.html'">Or use a credit pack</button>
+        <button class="btn btn-outline" id="pSave" style="width:100%;margin-top:9px;display:none">❤ Save to shortlist</button>
         <div class="gnote">✓ 7-day response guarantee — free replacement credit if no reply</div>
       </div>
     </div>
@@ -59,10 +60,12 @@
         </div>
         <div class="panel">
           <h3>⭐ Verified reviews <span class="badge b-cert">unlock-verified only</span></h3>
-          <div class="review"><div class="rv-top"><span><b>R. T. — eBay store, 3,200 listings</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★★</span></div>Handled 40+ messages/day and cut our case rate in half. Knowledge matched the test scores exactly.</div>
-          <div class="review"><div class="rv-top"><span><b>J. M. — 2-store operator</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★★</span></div>Responded within hours of unlock. Started part-time, now full-time.</div>
-          <div class="review"><div class="rv-top"><span><b>D. K. — new dropshipper</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★☆</span></div>Great with buyers. Studying for the next certification now.</div>
-          <div class="notebox">Only employers who unlocked this VA can leave a review — no anonymous or fake ratings. <b>(Demo reviews.)</b></div>
+          <div id="pReviews">
+            <div class="review"><div class="rv-top"><span><b>R. T. — eBay store, 3,200 listings</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★★</span></div>Handled 40+ messages/day and cut our case rate in half. Knowledge matched the test scores exactly.</div>
+            <div class="review"><div class="rv-top"><span><b>J. M. — 2-store operator</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★★</span></div>Responded within hours of unlock. Started part-time, now full-time.</div>
+            <div class="review"><div class="rv-top"><span><b>D. K. — new dropshipper</b> <span class="vtag">VERIFIED CONTACT</span></span><span class="stars">★★★★☆</span></div>Great with buyers. Studying for the next certification now.</div>
+          </div>
+          <div class="notebox" id="pReviewNote">Only employers who unlocked this VA can leave a review — no anonymous or fake ratings. <b>(Demo reviews.)</b></div>
         </div>
       </div>
       <div>
