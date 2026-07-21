@@ -10,7 +10,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function signedIn() { return request.auth != null; }
-    function admin()    { return signedIn() && request.auth.token.email == 'topratedvas@gmail.com'; }
+    function admin()    { return signedIn() && request.auth.token.email in ['topratedvas@gmail.com', 'dshenterpriseinc@gmail.com']; }
     function uid()      { return request.auth.uid; }
     function holdsUnlock(vaId) { return exists(/databases/$(database)/documents/unlocks/$(uid() + '_' + vaId)); }
 

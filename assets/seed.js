@@ -9,7 +9,8 @@ import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { db, auth } from "./firebase.js";
 
-const ADMIN_EMAIL = "topratedvas@gmail.com";
+const ADMIN_EMAILS = ["topratedvas@gmail.com", "dshenterpriseinc@gmail.com"];
+const ADMIN_EMAIL = ADMIN_EMAILS[0]; // shown in prompts
 const LAST = {
   "maria-d": "Dizon", "grace-t": "Tan", "jomar-p": "Pascual", "kevin-o": "Otieno",
   "priya-s": "Sharma", "carlos-m": "Mendoza", "ana-r": "Radic", "dmitri-k": "Kovalenko",
@@ -59,7 +60,7 @@ function init() {
   const gate = document.getElementById("seedGate");
   const panel = document.getElementById("seedPanel");
   onAuthStateChanged(auth, (user) => {
-    const isAdmin = user && user.email === ADMIN_EMAIL;
+    const isAdmin = user && ADMIN_EMAILS.includes(user.email);
     gate.style.display = isAdmin ? "none" : "block";
     panel.style.display = isAdmin ? "block" : "none";
     if (!isAdmin) {
