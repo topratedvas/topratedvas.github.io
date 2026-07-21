@@ -208,6 +208,91 @@ function t(k, a, b) {
   return s;
 }
 
+/* ---------- proof-video strings + assigned-checklist pool (Phase 6C) ---------- */
+const VID = {
+  en: {
+    needCert: "Pass a certification exam first — video submission unlocks once you have a certification.",
+    badge: "Video-verified", view: "View", englishScore: "English clarity score",
+    workShort: "Work video", summaryShort: "Summary video", resubmit: "Resubmit videos",
+    verdict: "Simulated AI verdict — the real review pipeline (n8n + AI) comes later.",
+    intro: "Two short videos prove your skills and identity. Record them, upload to YouTube as Unlisted, and paste the links below.",
+    checklistTitle: "Your assigned work-video checklist", checklistNote: "Personal to you and today's date — it can't be pre-recorded or borrowed.",
+    say: "On camera, say your name, today's date, and \"for my TopRatedVAs certification.\"",
+    code: "Your verification code", todayNote: "Say this code and today's date out loud in the video.",
+    workLabel: "Work video — YouTube Unlisted link", summaryLabel: "Summary video (explain the EcomSniper model) — YouTube Unlisted link",
+    submit: "Submit for review", invalid: "Please paste valid YouTube links for both videos.",
+    reviewing: "AI reviewing your videos…", stepT: "Transcribing your videos…", stepC: "Checking your checklist items…", stepE: "Scoring English clarity…"
+  },
+  tl: {
+    needCert: "Pumasa muna sa isang exam — mabubuksan ang video submission kapag may certification ka na.",
+    badge: "Video-verified", view: "Tingnan", englishScore: "English clarity score",
+    workShort: "Work video", summaryShort: "Summary video", resubmit: "I-resubmit ang mga video",
+    verdict: "Simulated AI verdict — ang totoong review pipeline (n8n + AI) ay susunod pa.",
+    intro: "Dalawang maikling video ang magpapatunay ng skill at pagkakakilanlan mo. I-record, i-upload sa YouTube bilang Unlisted, at i-paste ang mga link.",
+    checklistTitle: "Iyong assigned work-video checklist", checklistNote: "Personal sa iyo at sa petsa ngayon — hindi ito puwedeng i-pre-record o hiramin.",
+    say: "Sa camera, sabihin ang pangalan mo, petsa ngayon, at \"for my TopRatedVAs certification.\"",
+    code: "Iyong verification code", todayNote: "Sabihin ang code na ito at ang petsa ngayon sa video.",
+    workLabel: "Work video — YouTube Unlisted link", summaryLabel: "Summary video (ipaliwanag ang EcomSniper model) — YouTube Unlisted link",
+    submit: "I-submit para sa review", invalid: "Mangyaring mag-paste ng valid na YouTube links para sa dalawang video.",
+    reviewing: "Rine-review ng AI ang mga video mo…", stepT: "Tina-transcribe ang mga video…", stepC: "Sinusuri ang mga checklist item…", stepE: "Iniiskor ang English clarity…"
+  },
+  es: {
+    needCert: "Aprueba un examen primero — el envío de videos se activa cuando tengas una certificación.",
+    badge: "Video-verificado", view: "Ver", englishScore: "Puntaje de claridad en inglés",
+    workShort: "Video de trabajo", summaryShort: "Video resumen", resubmit: "Reenviar videos",
+    verdict: "Veredicto de IA simulado — el flujo de revisión real (n8n + IA) llega después.",
+    intro: "Dos videos cortos prueban tus habilidades e identidad. Grábalos, súbelos a YouTube como No listado y pega los enlaces.",
+    checklistTitle: "Tu lista asignada para el video de trabajo", checklistNote: "Personal para ti y la fecha de hoy — no se puede pregrabar ni pedir prestado.",
+    say: "Ante la cámara, di tu nombre, la fecha de hoy y \"para mi certificación TopRatedVAs.\"",
+    code: "Tu código de verificación", todayNote: "Di este código y la fecha de hoy en voz alta en el video.",
+    workLabel: "Video de trabajo — enlace de YouTube No listado", summaryLabel: "Video resumen (explica el modelo EcomSniper) — enlace de YouTube No listado",
+    submit: "Enviar para revisión", invalid: "Pega enlaces de YouTube válidos para ambos videos.",
+    reviewing: "La IA está revisando tus videos…", stepT: "Transcribiendo tus videos…", stepC: "Verificando los elementos de tu lista…", stepE: "Puntuando la claridad en inglés…"
+  }
+};
+const CHECKPOOL = {
+  en: [
+    "Open your eBay Messages inbox and show it on screen.",
+    "Open one active order and show its current tracking status.",
+    "Show your eBay 'Sold' orders view with a recent order visible.",
+    "Open the Amazon order page for one recent purchase.",
+    "Show your repricer or pricing tool on screen.",
+    "Demonstrate uploading a tracking number to an order.",
+    "Open your eBay Returns / Requests page.",
+    "Open one listing you manage and show its item specifics."
+  ],
+  tl: [
+    "Buksan ang iyong eBay Messages inbox at ipakita ito.",
+    "Buksan ang isang aktibong order at ipakita ang tracking status.",
+    "Ipakita ang eBay 'Sold' orders na may kamakailang order.",
+    "Buksan ang Amazon order page ng isang kamakailang order.",
+    "Ipakita ang iyong repricer o pricing tool sa screen.",
+    "Ipakita kung paano mag-upload ng tracking number sa order.",
+    "Buksan ang iyong eBay Returns / Requests page.",
+    "Buksan ang isang listing na hawak mo at ipakita ang item specifics."
+  ],
+  es: [
+    "Abre tu bandeja de eBay Messages y muéstrala en pantalla.",
+    "Abre un pedido activo y muestra su estado de seguimiento.",
+    "Muestra la vista de pedidos 'Vendidos' con un pedido reciente.",
+    "Abre la página del pedido de Amazon de una compra reciente.",
+    "Muestra tu repricer o herramienta de precios en pantalla.",
+    "Muestra cómo subir un número de seguimiento a un pedido.",
+    "Abre tu página de Devoluciones / Solicitudes de eBay.",
+    "Abre un anuncio que gestiones y muestra sus datos del artículo."
+  ]
+};
+function vt(k) { return (VID[LANG] && VID[LANG][k]) || VID.en[k] || k; }
+function hashUid() { let h = 5381; const s = USER ? USER.uid : ""; for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0; return h; }
+function assignedChecklist() {
+  const pool = CHECKPOOL[LANG] || CHECKPOOL.en;
+  const idxs = []; let x = hashUid();
+  while (idxs.length < 3) { const k = x % pool.length; if (idxs.indexOf(k) < 0) idxs.push(k); x = Math.floor(x / 7) + 13; }
+  return idxs.map(k => pool[k]);
+}
+function isYouTube(u) { return /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)[\w-]{6,}/i.test(u || ""); }
+function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+
 /* ---------- state + helpers ---------- */
 let USER = null, UDATA = {}, PROFILE = null, CONTACT = {};
 function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
@@ -313,8 +398,7 @@ function renderDashboard() {
     '<div class="dsub">' + esc((USER && USER.email) || "") + " · " + t("accountVA") + "</div>" +
     banner + progressBlock + availBlock + hbBlock +
     '<div class="dsec" id="sec-certs">' + t("certsTitle") + "</div>" + certsTable() +
-    '<div class="dsec" id="sec-videos">' + t("videosTitle") + "</div>" +
-      '<div class="panel"><span class="pill p-pend">' + t("videosSoon") + '</span><p style="margin-top:10px;color:var(--ink-soft);font-size:13.5px">' + t("videosBody") + "</p></div>" +
+    '<div class="dsec" id="sec-videos">' + t("videosTitle") + "</div>" + videoSection() +
     '<div class="dsec" id="sec-reviews">' + t("reviewsTitle") + "</div>" +
       '<div class="panel"><p style="color:var(--ink-soft);font-size:13.5px;margin:0">⭐ ' + t("reviewsEmpty") + "</p></div>" +
     '<div class="dsec" id="sec-discord">' + t("discordTitle") + "</div>" +
@@ -368,12 +452,61 @@ function wireNav() {
   }));
 }
 
+/* ---------- proof videos (Phase 6C) ---------- */
+function linkRow(label, vid) {
+  if (!vid || !vid.url) return "";
+  return '<div style="padding:4px 0">🎬 <b>' + esc(label) + '</b> — <a href="' + esc(vid.url) + '" target="_blank" rel="noopener" style="color:#0A8A70;font-weight:700">' + vt("view") + "</a> " +
+    (vid.status === "approved" ? '<span class="badge b-cert">✓ ' + vt("badge") + "</span>" : "") + "</div>";
+}
+function videoSection() {
+  const p = PROFILE || {};
+  if (!PROFILE) return '<div class="panel"><p style="color:var(--ink-soft);font-size:13.5px;margin:0">' + vt("needCert") + "</p></div>";
+  const work = p.workVideo, sum = p.summaryVideo;
+  if (p.videoVerified && work && sum) {
+    return '<div class="panel">' +
+      '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">' +
+        '<span class="badge b-cert" style="font-size:12px">✓ ' + vt("badge") + "</span>" +
+        '<span style="font-size:13px;color:var(--ink-soft)">' + vt("englishScore") + ": <b>" + (p.english || "—") + "/10</b></span></div>" +
+      linkRow(vt("workShort"), work) + linkRow(vt("summaryShort"), sum) +
+      '<button class="btn btn-outline" data-act="vidredo" style="margin-top:12px">' + vt("resubmit") + "</button>" +
+      '<div style="font-size:11px;color:var(--ink-soft);margin-top:10px">' + vt("verdict") + "</div></div>";
+  }
+  const items = assignedChecklist().map((c, i) => '<li style="margin-bottom:7px"><b>' + (i + 1) + ".</b> " + esc(c) + "</li>").join("");
+  const code = p.cert || "TRV";
+  return '<div class="panel">' +
+    '<p style="font-size:13.5px;color:var(--ink-soft);margin:0 0 14px">' + vt("intro") + "</p>" +
+    '<div class="formgroup" style="background:#FCFBF7"><h4>🎬 ' + vt("checklistTitle") + '</h4><div class="fg-sub">' + vt("checklistNote") + "</div>" +
+      '<ul style="list-style:none;padding:0;margin:0 0 12px;font-size:13.5px">' + items +
+        '<li style="margin-bottom:2px"><b>4.</b> ' + vt("say") + "</li></ul>" +
+      '<div class="notebox">' + vt("code") + ': <b class="mono">' + esc(code) + "</b> · " + vt("todayNote") + "</div></div>" +
+    '<div class="field"><label>' + vt("workLabel") + '</label><input id="vWork" type="url" placeholder="https://youtube.com/watch?v=…" value="' + esc(work && work.url || "") + '"></div>' +
+    '<div class="field"><label>' + vt("summaryLabel") + '</label><input id="vSummary" type="url" placeholder="https://youtube.com/watch?v=…" value="' + esc(sum && sum.url || "") + '"></div>' +
+    '<div id="vidReview"></div>' +
+    '<button class="btn btn-teal" id="vidSubmit">' + vt("submit") + "</button></div>";
+}
+async function submitVideos() {
+  const w = (document.getElementById("vWork").value || "").trim();
+  const s = (document.getElementById("vSummary").value || "").trim();
+  const box = document.getElementById("vidReview");
+  if (!isYouTube(w) || !isYouTube(s)) { box.innerHTML = '<div class="autherr" style="display:block;margin-bottom:10px">' + vt("invalid") + "</div>"; return; }
+  const btn = document.getElementById("vidSubmit"); if (btn) { btn.disabled = true; btn.style.opacity = ".6"; }
+  box.innerHTML = '<div class="notebox" id="vidProg">⏳ ' + vt("reviewing") + "</div>";
+  const steps = [vt("stepT"), vt("stepC"), vt("stepE")];
+  for (let i = 0; i < steps.length; i++) { await wait(700); const pr = document.getElementById("vidProg"); if (pr) pr.innerHTML = "⏳ " + steps[i]; }
+  await wait(600);
+  const english = 7 + (hashUid() % 3);
+  await patchProfile({ workVideo: { url: w, status: "approved", at: todayStr() }, summaryVideo: { url: s, status: "approved", at: todayStr() }, videoVerified: true, english });
+  renderDashboard();
+}
+
 function wireDashboard() {
   wireNav();
   app().querySelectorAll("[data-av]").forEach(b => b.addEventListener("click", () => setAvailability(b.getAttribute("data-av"))));
   const act = (name, fn) => { const b = app().querySelector('[data-act="' + name + '"]'); if (b) b.addEventListener("click", fn); };
   act("golive", goLive); act("unhide", () => setStatus("live")); act("hide", () => setStatus("hidden"));
   act("heartbeat", heartbeat);
+  const vsub = document.getElementById("vidSubmit"); if (vsub) vsub.addEventListener("click", submitVideos);
+  act("vidredo", async () => { await patchProfile({ videoVerified: false }); renderDashboard(); });
   wireLogout();
 }
 

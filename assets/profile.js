@@ -81,6 +81,29 @@ function renderPublic(v) {
     '<li><span class="k">Certificate</span><span class="v mono">verify/' + v.cert + "</span></li>");
   set("pBio", v.bio || "");
   renderWritten(v.writtenResponses);
+  renderVideos(v);
+}
+
+// Extract a YouTube video id from watch / youtu.be / embed / shorts URLs.
+function ytId(url) {
+  const m = String(url || "").match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/i);
+  return m ? m[1] : null;
+}
+function renderVideos(v) {
+  const grid = document.getElementById("pVideos"), note = document.getElementById("pVideoNote");
+  if (!grid) return;
+  const work = v.workVideo, sum = v.summaryVideo;
+  if (!(work && work.url) && !(sum && sum.url)) return; // seeded demo VAs keep the placeholder
+  const box = (vid, cap) => {
+    if (!vid || !vid.url) return '<div class="vidbox"><div class="play">▶</div><div class="cap">' + cap + " — not yet submitted</div></div>";
+    const id = ytId(vid.url), tag = vid.status === "approved" ? " · ✓ AI-reviewed" : "";
+    if (id) return '<div class="vidbox" style="padding:0;overflow:hidden"><iframe width="100%" height="180" src="https://www.youtube.com/embed/' + id +
+      '" title="' + esc(cap) + '" frameborder="0" allow="accelerometer; encrypted-media; picture-in-picture" allowfullscreen style="display:block;border:0"></iframe>' +
+      '<div class="cap" style="padding:10px 12px">' + esc(cap) + tag + "</div></div>";
+    return '<div class="vidbox"><div class="play">▶</div><div class="cap"><a href="' + esc(vid.url) + '" target="_blank" rel="noopener" style="color:#0A8A70;font-weight:700">' + esc(cap) + " — open</a>" + tag + "</div></div>";
+  };
+  grid.innerHTML = box(work, "Assigned work video") + box(sum, "Business summary video");
+  if (note) note.innerHTML = "🎬 Submitted by this VA and checked by our review system — identity stated on camera against a personal checklist. <b>(Simulated AI review in this demo.)</b>";
 }
 
 function renderContact(res) {
