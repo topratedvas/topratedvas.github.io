@@ -15,6 +15,23 @@ function normCerts(certs) { return (certs || []).map(c => Array.isArray(c) ? { r
 function normVa(v) { return Object.assign({}, v, { certs: normCerts(v.certs) }); }
 function param(k) { return new URLSearchParams(location.search).get(k); }
 function set(id, html) { const el = document.getElementById(id); if (el) el.innerHTML = html; }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+const CERT_ROLES = { "customer-service": "Customer Service", "listing": "Listing", "sourcing": "Sourcing / Sniping", "fulfillment": "Order Fulfillment", "manager": "VA Manager" };
+
+// Unscripted, paste-blocked answers the VA typed during their exam (Phase 6).
+function renderWritten(wr) {
+  const panel = document.getElementById("pWrittenPanel"), box = document.getElementById("pWritten");
+  if (!panel || !box) return;
+  const items = [];
+  Object.keys(wr || {}).forEach(k => (wr[k] || []).forEach(r => { if (r && r.a) items.push({ role: CERT_ROLES[k] || k, q: r.q, a: r.a }); }));
+  if (!items.length) { panel.style.display = "none"; return; }
+  box.innerHTML = items.map(it =>
+    '<div style="border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;background:#FCFBF7">' +
+    '<div class="mono" style="font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--teal);text-transform:uppercase;margin-bottom:5px">' + esc(it.role) + "</div>" +
+    '<div style="font-weight:700;font-size:13.5px;margin-bottom:6px">' + esc(it.q) + "</div>" +
+    '<div style="font-size:13.5px;color:var(--ink-soft);white-space:pre-wrap">' + esc(it.a) + "</div></div>").join("");
+  panel.style.display = "";
+}
 
 function renderPublic(v) {
   document.title = v.name + " — Certified VA · TopRatedVAs.com";
@@ -63,6 +80,7 @@ function renderPublic(v) {
     '<li><span class="k">Heartbeat status</span><span class="v" style="color:#0A7A5F">Confirmed ' + confirmed + "</span></li>" +
     '<li><span class="k">Certificate</span><span class="v mono">verify/' + v.cert + "</span></li>");
   set("pBio", v.bio || "");
+  renderWritten(v.writtenResponses);
 }
 
 function renderContact(res) {

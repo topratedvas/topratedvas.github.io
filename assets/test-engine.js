@@ -15,7 +15,8 @@ import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/f
 import { auth, db } from "./firebase.js";
 
 const PASS = 80;
-const DRAW = 20;                 // questions per attempt (or the whole bank if smaller)
+const DRAW = 20;                 // scored MC questions per attempt (or the whole bank if smaller)
+const FILL_DRAW = 3;             // typed "in your own words" questions shown after the MC (not scored)
 const FAST_SEC = 40;             // <= this per question → full marks
 const SLOW_SEC = 150;            // >= this → maximum speed penalty
 const SPEED_FLOOR = 0.85;        // slowest correct answer still earns 85% of its point
@@ -128,7 +129,8 @@ function startRules(key) {
       '<div class="test-rules"><b>Exam rules (read before you start)</b>' +
         "Answers are selected by you alone — no copy-paste, no AI tools (detection active in the live system), no second device. " +
         "Your answer speed is tracked: quick answers score full marks, ~1 minute is fine, long delays progressively reduce points. " +
-        "You may pause between questions. Latest score counts. Cheating = 1-year suspension; a second offense = lifetime ban.</div>" +
+        "You may pause between questions. Latest score counts. It ends with a few short written questions (not scored) that employers will read. " +
+        "Cheating = 1-year suspension; a second offense = lifetime ban.</div>" +
       '<div class="qcard" style="text-align:center">' +
         "<h2 style='margin-bottom:8px'>Ready when you are</h2>" +
         '<p style="color:var(--ink-soft);margin-bottom:20px">The timer starts on the first question. Give your honest best answer to each scenario.</p>' +
@@ -154,8 +156,10 @@ function beginExam(key) {
     const shuffled = shuffle(opts);
     return { scenario: item.scenario || "", q: item.q, options: shuffled };
   });
+  const fillins = shuffle(window.TRV_FILLINS && window.TRV_FILLINS[key] || []).slice(0, FILL_DRAW);
   S = { key, role: c.role, questions, idx: 0, answers: [],
-        qActiveMs: 0, lastTick: Date.now(), paused: false, chosen: null };
+        qActiveMs: 0, lastTick: Date.now(), paused: false, chosen: null,
+        fillins, fillIdx: 0, fillAnswers: [] };
   renderQuestion();
 }
 
@@ -230,6 +234,39 @@ function submitAnswer() {
   const correct = !!q.options[S.chosen].correct;
   S.answers.push({ correct, sec: S.qActiveMs / 1000 });
   if (S.idx < S.questions.length - 1) { S.idx++; renderQuestion(); }
+  else if (S.fillins.length) { S.fillIdx = 0; renderFill(); }
+  else finishExam();
+}
+
+/* ---------- Typed "in your own words" questions (not scored) ---------- */
+function renderFill() {
+  stopTimer();
+  const prompt = S.fillins[S.fillIdx];
+  const nOf = (S.fillIdx + 1) + " of " + S.fillins.length;
+  const last = S.fillIdx >= S.fillins.length - 1;
+  root().innerHTML =
+    '<div class="test-shell">' +
+      '<div class="test-top"><span class="mono">WRITTEN ANSWER ' + nOf + " · " + esc(S.role.toUpperCase()) + "</span>" +
+        '<span class="mono">Not scored</span></div>' +
+      '<div class="qcard">' +
+        '<div class="q-ctx"><div class="q-ctx-tag">In your own words</div>Employers read these to see how you think. Type your own answer — pasting is turned off. There is no single right answer.</div>' +
+        "<h2>" + esc(prompt) + "</h2>" +
+        '<textarea id="fillBox" maxlength="900" placeholder="Type your answer here…" style="width:100%;min-height:150px;border:1px solid var(--line);border-radius:12px;padding:14px;font-family:inherit;font-size:15px;line-height:1.5;background:#FCFBF7;outline:none;resize:vertical"></textarea>' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">' +
+          '<span class="mono" style="font-size:11.5px;color:var(--ink-soft)" id="fillCnt">0 / 900</span>' +
+          '<span style="font-size:11.5px;color:var(--ink-soft)">🔒 Paste disabled</span></div>' +
+        '<div style="display:flex;gap:11px;margin-top:14px">' +
+          '<button class="btn btn-teal btn-big" style="flex:1" id="fillBtn">' + (last ? "Finish exam →" : "Next →") + "</button></div>" +
+      "</div></div>";
+  const box = el("fillBox"), cnt = el("fillCnt");
+  ["paste", "drop"].forEach(ev => box.addEventListener(ev, e => e.preventDefault()));
+  box.addEventListener("input", () => { cnt.textContent = box.value.length + " / 900"; });
+  el("fillBtn").addEventListener("click", submitFill);
+  box.focus();
+}
+function submitFill() {
+  S.fillAnswers[S.fillIdx] = (el("fillBox").value || "").trim();
+  if (S.fillIdx < S.fillins.length - 1) { S.fillIdx++; renderFill(); }
   else finishExam();
 }
 
@@ -270,11 +307,12 @@ async function finishExam() {
       "</div></div>";
   el("againBtn").addEventListener("click", renderPicker);
 
+  const written = (S.fillins || []).map((q, i) => ({ q, a: (S.fillAnswers[i] || "") })).filter(x => x.a);
   try {
-    await recordResult(S.key, S.role, score, Math.round(avgSec), rating, passed);
+    await recordResult(S.key, S.role, score, Math.round(avgSec), rating, passed, written);
     const note = el("saveNote");
     if (note) note.innerHTML = passed
-      ? "✅ Saved to your account. <b>Next:</b> complete your listing (rates, location, bio) and post your proof videos to go live on Browse — coming to your dashboard."
+      ? "✅ Saved to your account." + (written.length ? " Your written answers were saved and will show on your profile so employers can read them." : "") + " <b>Next:</b> complete your listing (rates, location, bio) to go live on Browse."
       : "✅ Attempt saved. You can retake this exam (1 free retake after a 7-day wait, then $10 — simulated). Your latest score always counts.";
   } catch (e) {
     const note = el("saveNote");
@@ -283,7 +321,7 @@ async function finishExam() {
   }
 }
 
-async function recordResult(key, role, score, avgSec, rating, passed) {
+async function recordResult(key, role, score, avgSec, rating, passed, written) {
   if (!USER) throw new Error("not-signed-in");
   const uref = doc(db, "users", USER.uid);
   const attempts = Object.assign({}, UDATA.testAttempts || {});
@@ -297,11 +335,11 @@ async function recordResult(key, role, score, avgSec, rating, passed) {
   };
   UDATA.testAttempts = attempts;
   await setDoc(uref, { testAttempts: attempts }, { merge: true });
-  if (passed) await upsertProfileCert(role, score);
+  if (passed) await upsertProfileCert(key, role, score, written);
 }
 
 // Create/refresh the VA's public listing with the latest cert (latest score counts).
-async function upsertProfileCert(role, score) {
+async function upsertProfileCert(key, role, score, written) {
   const pref = doc(db, "vaProfiles", USER.uid);
   let snap = null;
   try { snap = await getDoc(pref); } catch (e) { snap = null; }
@@ -327,6 +365,11 @@ async function upsertProfileCert(role, score) {
   base.ownerUid = USER.uid;                 // rules require this on every write
   base.certs = certs;
   base.tier = m.tier; base.tierLabel = m.label;
+  if (written && written.length) {          // typed answers, keyed by cert, for employers to read
+    const wr = Object.assign({}, existing && existing.writtenResponses || {});
+    wr[key] = written;
+    base.writtenResponses = wr;
+  }
   await setDoc(pref, base, { merge: true });
 }
 
